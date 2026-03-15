@@ -212,8 +212,11 @@ def price_tbl(items,kdv=0.20):
                 ("RIGHTPADDING",(0,0),(-1,-1),0)]))
         else:
             cell=Paragraph(label,S_VALUE)
-        rows.append([cell,Paragraph(f"{up:,.0f} TL",S_VALUE),
-            Paragraph(f"{qty} {unit}",S_VALUE),Paragraph(f"{sub:,.0f} TL",S_VALUE)])
+        # Fiyatı temiz göster: 250.0 → 250, 250.5 → 250,5
+        up_str = str(int(up)) if up == int(up) else f"{up:,.2f}".rstrip('0').rstrip(',')
+        qty_str = str(int(qty)) if qty == int(qty) else str(qty)
+        rows.append([cell,Paragraph(f"{up_str} TL",S_VALUE),
+            Paragraph(f"{qty_str} {unit}",S_VALUE),Paragraph(f"{sub:,.0f} TL",S_VALUE)])
     kv=total*kdv; gd=total+kv
     rows+=[
         [Paragraph("Ara Toplam",S_LABEL),Ep(),Ep(),Paragraph(f"{total:,.0f} TL",S_VALUE)],
@@ -405,10 +408,13 @@ def build_pdf(data, out_path):
     price_items = data.get("fiyat_kalemleri",[])
     # Park aktivitelerini fiyat tablosuna ekle
     for ak in data.get("park_aktiviteleri",[]):
-        if ak.get("price") and ak.get("qty"):
+        if ak.get("price"):
+            unit = ak.get("unit","kişi")
+            # toplam birimse miktar 1, kişi birimse kişi sayısı
+            qty = 1 if unit == "toplam" else float(ak.get("qty",1) or 1)
             price_items = list(price_items) + [(
-                ak["name"], float(ak["price"]), float(ak["qty"]),
-                ak.get("unit","kişi"), ak.get("not","")
+                ak["name"], float(ak["price"]), qty,
+                unit, ak.get("not","")
             )]
     # Seçilen etkinlikleri fiyat tablosuna ekle
     for et in data.get("etkinlikler",[]):
