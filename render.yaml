@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: moment-teklif
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn server:app
+    plan: free
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DB_PATH
+        value: /var/data/moment.db
+      - key: PYTHON_VERSION
+        value: 3.11.0
+    disk:
+      name: moment-db
+      mountPath: /var/data
+      sizeGB: 1
