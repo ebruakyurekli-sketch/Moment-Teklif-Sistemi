@@ -2,14 +2,44 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Moment Tabiat Parkı — Teklif Sistemi</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<title>Moment Teklif</title>
+
+<!-- PWA: manifest -->
+<link rel="manifest" href="/manifest.json">
+
+<!-- iOS PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Moment Teklif">
+<link rel="apple-touch-icon" href="/logo_img">
+
+<!-- Tema rengi -->
+<meta name="theme-color" content="#1C1C1C">
+<meta name="mobile-web-app-capable" content="yes">
 <style>
 :root{--br:#1C1C1C;--bm:#2E2E2E;--go:#B8922A;--gl:#D4AB42;--cr:#FAF6EF;--cr2:#F2EBD9;--bd:#D9CFBE;--tx:#1C1C1C;--mt:#666}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#EDE3D0;color:var(--tx);font-size:14px}
-.app{max-width:1020px;margin:0 auto;padding:0 0 60px}
-.hd{background:var(--br);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:52px;border-radius:0 0 12px 12px;border-bottom:2.5px solid var(--go);position:sticky;top:0;z-index:100}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;background:#EDE3D0;color:var(--tx);font-size:14px;
+  /* iOS momentum scroll */
+  -webkit-overflow-scrolling:touch;
+  /* Dokunma gecikmesini kaldır */
+  touch-action:manipulation;
+}
+.app{max-width:1020px;margin:0 auto;padding:0 0 calc(60px + env(safe-area-inset-bottom))}
+/* iOS status bar alanı için header padding */
+.hd{background:var(--br);
+  padding:env(safe-area-inset-top) 16px 0;
+  padding-left:calc(16px + env(safe-area-inset-left));
+  padding-right:calc(16px + env(safe-area-inset-right));
+  display:flex;align-items:center;justify-content:space-between;
+  min-height:calc(52px + env(safe-area-inset-top));
+  border-radius:0 0 12px 12px;border-bottom:2.5px solid var(--go);position:sticky;top:0;z-index:100}
+/* Standalone modda (Ana Ekran) daha belirgin */
+@media all and (display-mode:standalone){
+  body{background:#1C1C1C}
+  .app{background:#EDE3D0;min-height:100dvh}
+}
 .logo{color:var(--gl);font-size:15px;font-weight:600;letter-spacing:1px}
 .logo small{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:2px;margin-left:8px;font-weight:400}
 .pdf-btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:inherit;background:var(--go);color:#fff;transition:.2s;box-shadow:0 2px 8px rgba(160,120,64,.4)}
@@ -185,7 +215,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
   <div class="g3">
     <div class="fld"><label>Ad Soyad</label><input id="gad" value="Ebru Akyürekli"></div>
     <div class="fld"><label>E-posta</label><input id="gem" value="info@moment.com.tr"></div>
-    <div class="fld"><label>Telefon</label><input id="gtel" value="530 4637090"></div>
+    <div class="fld"><label>Telefon</label><input id="gtel" value="+90 5304637090"></div>
     <div class="fld"><label>Teklif Tarihi</label><input id="teklif_tar" placeholder="04/12/2025"></div>
   </div>
   <div class="acts"><button class="btn btn-d" onclick="ogo('o2',document.querySelectorAll('#otabs .tab')[2])">Sonraki →</button></div>
@@ -394,12 +424,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
   <div id="noteList" class="dyn"></div>
   <button class="add-btn" onclick="addN()">+ Not Ekle</button>
   <div class="sec">Kapanış Yazısı</div>
-  <div class="fld"><textarea id="kapanis_metin" placeholder="Opsiyonel — PDF sonuna eklenir"></textarea></div>
+  <div class="fld"><textarea id="kapanis_metin" placeholder="Opsiyonel — PDF sonuna eklenir">Moment’e göstermiş olduğunuz ilgiye tekrar teşekkür eder, sizlere yardımcı olmaktan memnuniyet duyacağımızı belirtmek isteriz.</textarea></div>
   <div class="sec">Banka Bilgileri</div>
   <div class="g3">
-    <div class="fld"><label>Hesap Adı</label><input id="hAd" value="MOMENT EĞLENCE SPORLARI MERKEZİ TURİZM SANAYİ VE DIŞ TİCARET A.Ş."></div>
-    <div class="fld"><label>Banka / Şube</label><input id="hBanka" value="PAPARA / İZMİR"></div>
-    <div class="fld"><label>IBAN</label><input id="hIban" value="TR24 0082 9010 0949 0000 0253 80"></div>
+    <div class="fld"><label>Hesap Adı</label><input id="hAd" value="Moment Eğlence Sporları Merkezi Turizm San.Ve Dış.Tic.Aş."></div>
+    <div class="fld"><label>Banka / Şube</label><input id="hBanka" value="Enpara Bank A.Ş."></div>
+    <div class="fld"><label>IBAN</label><input id="hIban" value="TR27 0015 7000 0000 0202 9803 77"></div>
   </div>
   <div class="acts">
     <button class="btn btn-o" onclick="ogo('o4',document.querySelectorAll('#otabs .tab')[4])">← Geri</button>
@@ -540,6 +570,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;ba
 <script>
 // ═══════════════ STATE ═══════════════
 let nid=1,pRows=[],notes=[],svcs=[],actRows=[],menus=[],payRows=[],flowRows=[];
+const DEFAULT_SERVICES = [
+  'Orman alanı özel organizasyon için kapatılacaktır.',
+  'Alanda kullanılacak elektrik hizmeti tarafımızca karşılanacaktır.',
+  'Organizasyon alanında 1 adet güvenlik hizmeti sunulacaktır.',
+  'Alana giriş ve otopark kullanımı ücretsiz olacaktır.',
+  'Organizasyon boyunca lavabo temizliği tarafımızca karşılanacaktır.',
+  'Fiyatlar + KDV’dir.'
+];
+const DEFAULT_NOTES = [
+  'Rezervasyonun kesinleşmesi durumunda toplam organizasyon bedelinin %50’sinin aşağıda belirtilen hesap numaramıza yatırılmasını rica ederiz.',
+  'Sözleşmede belirtilen kişi sayısının artması veya azalması durumunda, en geç 5 gün öncesinde yazılı olarak bildirilmesi koşuluyla garanti kişi sayısında değişiklik kabul edilecektir.',
+  'Organizasyon günü, gelen misafir sayısına göre hesaplama yapılır. Bu rakam garanti kişi sayısının altında kaldığı takdirde, garanti kişi sayısı üzerinden hesaplama yapılacaktır.',
+  'Kalan ödemenin organizasyon günü, etkinlik öncesinde tamamlanmasını rica ederiz.'
+];
 const uid=()=>nid++;
 const fmt0=n=>isNaN(n)?'0':Math.round(Number(n)).toLocaleString('tr-TR');
 function v(id){var e=document.getElementById(id);return e?e.value:'';}
@@ -881,7 +925,9 @@ function applyTpl(t){
   document.querySelectorAll('[name=dz]').forEach(r=>{if(r.value===t.dz)r.checked=true;});
   pRows=[];notes=[];svcs=[];actRows=[];menus=[];payRows=[];flowRows=[];
   t.prices.forEach(([l,p,q,u])=>addP(l,p,q,u));
-  t.svcs.forEach(s=>addS(s));
+  const mergedSvcs=[...DEFAULT_SERVICES, ...(t.svcs||[])].filter((v,i,a)=>v && a.indexOf(v)===i);
+  DEFAULT_NOTES.forEach(n=>addN(n));
+  mergedSvcs.forEach(s=>addS(s));
   t.menuKeys.forEach(key=>addMenuPkt(key));
   const sc=document.getElementById('chk-svc');if(sc){sc.checked=t.svcOn;tglSec('svc',t.svcOn);}
   const mc=document.getElementById('chk-menu');if(mc){mc.checked=t.menuOn;tglSec('menu',t.menuOn);}
@@ -889,12 +935,21 @@ function applyTpl(t){
   toast(t.name+' şablonu yüklendi','s');
   setTimeout(()=>ogo('o1',document.querySelectorAll('#otabs .tab')[1]),400);
 }
+function applyDefaultTexts(){
+  notes=[];svcs=[];
+  DEFAULT_NOTES.forEach(n=>addN(n));
+  DEFAULT_SERVICES.forEach(s=>addS(s));
+  const sc=document.getElementById('chk-svc');if(sc){sc.checked=true;tglSec('svc',true);}
+}
+
 function clearAll(){
   pRows=[];notes=[];svcs=[];actRows=[];menus=[];payRows=[];flowRows=[];
   renderP();renderN();renderS();renderActList();renderMB();renderFlow();updSum();
-  ['mad','munvan','mem','mtel','tar1','tar2','saat1','saat2','kisi','tt_oz','teklif_tar','opsiyon','kapanis_metin'].forEach(id=>setV(id,''));
+  ['mad','munvan','mem','mtel','tar1','tar2','saat1','saat2','kisi','tt_oz','teklif_tar','opsiyon'].forEach(id=>setV(id,''));
+  setV('kapanis_metin','Moment’e göstermiş olduğunuz ilgiye tekrar teşekkür eder, sizlere yardımcı olmaktan memnuniyet duyacağımızı belirtmek isteriz.');
   PARK_ACTS.forEach(a=>{const chk=document.getElementById('achk-'+a.id);if(chk){chk.checked=false;tglAct(a.id,false);}});
   document.querySelectorAll('.tpl-card').forEach(c=>c.classList.remove('active'));
+  applyDefaultTexts();
   toast('Sıfırlandı','i');
 }
 
@@ -902,6 +957,7 @@ function clearAll(){
 document.querySelectorAll('[name=kdv]').forEach(r=>r.addEventListener('change',updSum));
 renderTplGrid();
 renderActGrid();
+applyDefaultTexts();
 
 
 // ── Relogin Modal
@@ -1301,6 +1357,57 @@ function apiInit(){
 // spin animasyon
 const st=document.createElement('style');st.textContent='@keyframes spin{to{transform:rotate(360deg)}}';document.head.appendChild(st);
 apiInit();
+
+// ════ SERVICE WORKER KAYDI ════
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js', {scope:'/'})
+      .catch(err => console.warn('SW kayıt hatası:', err));
+  });
+}
+
+// ════ iOS "ANA EKRANA EKLE" BANNER ════
+(function(){
+  // Zaten standalone (yüklü) ya da daha önce kapatıldıysa gösterme
+  const isStandalone = window.navigator.standalone === true ||
+                       window.matchMedia('(display-mode:standalone)').matches;
+  const dismissed = sessionStorage.getItem('pwa-banner-dismissed');
+  if(isStandalone || dismissed) return;
+
+  // Sadece iOS Safari'de göster
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  if(!isIOS || !isSafari) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'pwa-banner';
+  banner.style.cssText = [
+    'position:fixed;bottom:0;left:0;right:0;z-index:10000',
+    'background:#1C1C1C;color:#fff',
+    'padding:14px 16px calc(14px + env(safe-area-inset-bottom))',
+    'display:flex;align-items:flex-start;gap:12px',
+    'box-shadow:0 -4px 20px rgba(0,0,0,.4)',
+    'font-family:-apple-system,sans-serif'
+  ].join(';');
+
+  banner.innerHTML = `
+    <div style="font-size:28px;line-height:1;flex-shrink:0">📲</div>
+    <div style="flex:1">
+      <div style="font-size:13px;font-weight:600;margin-bottom:3px;color:#D4AB42">
+        Ana Ekrana Ekle
+      </div>
+      <div style="font-size:11.5px;color:rgba(255,255,255,.7);line-height:1.5">
+        Safari'de <strong style="color:#fff">Paylaş</strong> &nbsp;▢↑&nbsp; düğmesine sonra
+        <strong style="color:#fff">"Ana Ekrana Ekle"</strong> seçeneğine dokunun.
+      </div>
+    </div>
+    <button onclick="document.getElementById('pwa-banner').remove();sessionStorage.setItem('pwa-banner-dismissed','1')"
+      style="background:transparent;border:none;color:rgba(255,255,255,.4);font-size:22px;cursor:pointer;
+             padding:0;line-height:1;flex-shrink:0;font-family:inherit">×</button>
+  `;
+
+  document.body.appendChild(banner);
+})();
 
 </script>
 </body>

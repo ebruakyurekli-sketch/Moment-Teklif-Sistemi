@@ -1,0 +1,36 @@
+{
+  "name": "Moment Teklif Sistemi",
+  "short_name": "Moment Teklif",
+  "description": "Moment Tabiat Parkı — Teklif Oluşturma ve Takip Sistemi",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1C1C1C",
+  "theme_color": "#1C1C1C",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "/logo_img",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo_img",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Yeni Teklif",
+      "short_name": "Yeni",
+      "description": "Yeni teklif oluştur",
+      "url": "/",
+      "icons": [{"src": "/logo_img", "sizes": "192x192"}]
+    }
+  ]
+}

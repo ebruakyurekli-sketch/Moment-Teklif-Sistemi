@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.venv312/
+*.egg-info/
+
+# Veritabanı (müşteri verisi — asla repoya girmesin)
+*.db
+*.sqlite
+*.sqlite3
+
+# Log dosyaları
+*.log
+
+# Oluşturulan PDF teklifler (müşteri verisi)
+teklifler/
+
+# Test dosyaları
+finansal_analiz_test.py
+
+# macOS
+.DS_Store
+
+# Ortam değişkenleri
+.env
+.env.*

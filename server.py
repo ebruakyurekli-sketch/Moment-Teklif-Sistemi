@@ -190,6 +190,42 @@ def logout():
     session.clear()
     return redirect('/login')
 
+# ── PWA DOSYALARI ─────────────────────────────────────────────────
+@app.route('/manifest.json')
+def manifest():
+    return send_file(
+        os.path.join(os.path.dirname(__file__), 'manifest.json'),
+        mimetype='application/manifest+json'
+    )
+
+@app.route('/sw.js')
+def service_worker():
+    resp = send_file(
+        os.path.join(os.path.dirname(__file__), 'sw.js'),
+        mimetype='application/javascript'
+    )
+    # SW'nin cache'lenmemesi için
+    resp.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    resp.headers['Service-Worker-Allowed'] = '/'
+    return resp
+
+@app.route('/logo_img')
+def logo_img():
+    logo_path = os.path.join(os.path.dirname(__file__), 'logo_v2.png')
+    if os.path.exists(logo_path):
+        return send_file(logo_path, mimetype='image/png')
+    # Logo yoksa 1x1 şeffaf PNG döndür
+    import base64
+    px = base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==')
+    from flask import Response
+    return Response(px, mimetype='image/png')
+
+@app.route('/apple-touch-icon.png')
+@app.route('/apple-touch-icon-precomposed.png')
+def apple_touch_icon():
+    return logo_img()
+
+# ── ANA SAYFA ─────────────────────────────────────────────────────
 @app.route('/')
 @login_required
 def index():

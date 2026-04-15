@@ -98,30 +98,32 @@ class Header(Flowable):
                         mask='auto', preserveAspectRatio=True, anchor='w')
         except: pass
 
-        # moment. + alt bilgiler — tam sayfa ortası
+        # moment. + alt bilgiler — tek sütun, tam ortada
         cx = w/2
         top_center = h - top_h/2 + 2*mm   # dikey merkez biraz yukarı
 
         # moment.
         c.setFillColor(C_INK)
         c.setFont("DV-B", 22)
-        c.drawCentredString(cx, top_center + 6*mm, "moment.")
+        c.drawCentredString(cx, top_center + 8*mm, "moment.")
 
-        # TABİAT PARKI
+        # Alt bilgiler tek sütun halinde, moment yazısının tam altında
+        info_y = top_center + 2*mm
         c.setFillColor(C_MUTED)
         c.setFont("DV", 7.5)
-        c.drawCentredString(cx, top_center + 1*mm, "T A B İ A T   P A R K I")
+        c.drawCentredString(cx, info_y, "T A B İ A T   P A R K I")
 
         # İnce çizgi
         c.setStrokeColor(C_SAND)
         c.setLineWidth(0.4)
-        c.line(cx - 24*mm, top_center - 1.5*mm, cx + 24*mm, top_center - 1.5*mm)
+        c.line(cx - 18*mm, info_y - 2.5*mm, cx + 18*mm, info_y - 2.5*mm)
 
-        # Tel · email · web — tek satır, tam ortada
+        # İletişim bilgileri alt alta tek sütun
         c.setFillColor(C_BARK)
-        c.setFont("DV", 7.5)
-        c.drawCentredString(cx, top_center - 6*mm,
-            "+90 532 441 18 11  ·  info@moment.com.tr  ·  moment.com.tr")
+        c.setFont("DV", 7.2)
+        c.drawCentredString(cx, info_y - 7*mm, "+90 532 441 18 11")
+        c.drawCentredString(cx, info_y - 11.5*mm, "info@moment.com.tr")
+        c.drawCentredString(cx, info_y - 16*mm, "moment.com.tr")
 
         # Ayırıcı
         c.setFillColor(C_GOLD)
@@ -379,7 +381,7 @@ def build_pdf(data, out_path):
             right=[
                 ("Gönderen", gonderen_str),
                 ("E-mail",   data.get("gonderen_email","info@moment.com.tr")),
-                ("Telefon",  data.get("gonderen_tel","530 4637090")),
+                ("Telefon",  data.get("gonderen_tel","+90 5304637090")),
                 ("Tarih",    data.get("teklif_tar","")),
             ]
         ),
@@ -536,10 +538,10 @@ def build_pdf(data, out_path):
             S("bh",fontName="DV-B",fontSize=9.5,textColor=C_INK,alignment=TA_CENTER)),
         Spacer(1,6),
         bank_tbl(
-            data.get("h_ad","MOMENT EĞLENCE SPORLARI MERKEZİ TURİZM SANAYİ VE DIŞ TİCARET A.Ş."),
-            data.get("h_banka","PAPARA"),
-            data.get("h_sube","İZMİR"),
-            data.get("h_iban","TR24 0082 9010 0949 0000 0253 80"),
+            data.get("h_ad","Moment Eğlence Sporları Merkezi Turizm San.Ve Dış.Tic.Aş."),
+            data.get("h_banka","Enpara Bank A.Ş."),
+            data.get("h_sube",""),
+            data.get("h_iban","TR27 0015 7000 0000 0202 9803 77"),
         ),
         Spacer(1,12),
     ))
@@ -550,9 +552,10 @@ def build_pdf(data, out_path):
     s.append(Paragraph(gonderen_str,S_SIG))
 
     # ── KAPANIŞ METNİ — sadece varsa ──────────────────────────────
-    if data.get("kapanis_metin"):
+    kapanis_metin = data.get("kapanis_metin") or "Moment’e göstermiş olduğunuz ilgiye tekrar teşekkür eder, sizlere yardımcı olmaktan memnuniyet duyacağımızı belirtmek isteriz."
+    if kapanis_metin:
         s.append(Spacer(1,8))
-        s.append(Paragraph(data["kapanis_metin"],
+        s.append(Paragraph(kapanis_metin,
             S("km",fontSize=9,textColor=C_BARK,fontName="DV-I",leading=14)))
 
     s.append(Spacer(1,10))
@@ -568,7 +571,7 @@ if __name__ == "__main__":
     test_data = {
         "musteri_adi":"Tuna Bey","musteri_email":"tuna@abc.com","musteri_tel":"0532 356 31 81",
         "gonderen":"Ebru Akyürekli","gonderen_email":"info@moment.com.tr",
-        "gonderen_tel":"530 4637090","teklif_tar":"04/12/2025",
+        "gonderen_tel":"+90 5304637090","teklif_tar":"04/12/2025",
         "tarih":"14/12/2025","saat":"10:00-20:00","kisi":"150-200",
         "etkinlik_turu":"Şirket Piknik Organizasyonu",
         "alan":"Moment Bahçe (Alt+Üst)","duzen":"Uzun Masa Düzeni",
@@ -608,8 +611,8 @@ if __name__ == "__main__":
         "etkinlikler":[],
         # Akış notları YOK
         "flow":[],
-        "h_ad":"MOMENT EĞLENCE SPORLARI MERKEZİ TURİZM SANAYİ VE DIŞ TİCARET A.Ş.",
-        "h_banka":"PAPARA","h_sube":"İZMİR","h_iban":"TR24 0082 9010 0949 0000 0253 80",
+        "h_ad":"Moment Eğlence Sporları Merkezi Turizm San.Ve Dış.Tic.Aş.",
+        "h_banka":"Enpara Bank A.Ş.","h_sube":"","h_iban":"TR27 0015 7000 0000 0202 9803 77",
     }
     result = build_pdf(test_data, "/home/claude/Moment_Test_Engine.pdf")
     import os
